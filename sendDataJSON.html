@@ -1,0 +1,78 @@
+<html>
+      <head>
+            <title>CRUD - Alfian Rifqi Pradana</title>
+      </head>
+      
+      <body>
+            <h2>INS407 - #12 - tugas 2 SBDL</h2>
+            <table>
+                  <tr>
+                        <th style="text-align: left">Nama</th>
+                        <td>Alfian Rifqi Pradana</td>
+                  </tr>
+                  <tr>
+                        <th style="text-align: left">NIM</th>
+                        <td>2019081046</td>
+                  </tr>
+                  <tr>
+                        <th style="text-align: left">Jurusan</th>
+                        <td>Sistem Informasi</td>
+                  </tr> 
+                  <tr>
+                        <th style="text-align: left">Judul</th>
+                        <td>IMPLEMENTASI JAVASCRIPT, PHP, MYSQLI UNTUK KIRIM, TERIMA dan SIMPAN data JSON ke DATABASE</td>
+                  </tr>                  
+            </table>
+            <h3>Data JSON:</h3>
+            <div id="tampilan_json" style="width: 60%;height: auto; padding: 16px; border: 1px solid black;"></div>
+            <div id="status">Status: </div>
+            <input id="send_json" style="padding: 16px; margin-top:10px; color: white; background-color: green;border: none;" type="button" value="Simpan JSON">
+            <script>
+                  //Variabel data JSON
+                  let objDataMhs = [
+                        {"nim":"2020087013","nama":"RIVALSYACH ADINANTO","kdProdi":"SIF"},
+                        {"nim":"2021081001","nama":"RAJASA RUSMANA ","kdProdi":"SIF"},
+                        {"nim":"2021081002","nama":"YESSY","kdProdi":"SIF"},
+                        {"nim":"2021081005","nama":"HAFID ROIHAN","kdProdi":"SIF"},
+                        {"nim":"2021081024","nama":"LOLA ADRIANI PUTRI","kdProdi":"SIF"},
+                        {"nim":"2021081025","nama":"GLORYS","kdProdi":"SIF"}
+                        ];
+
+                  //Tampilkan data JSON di halaman browser
+                  document.getElementById('tampilan_json').append(JSON.stringify(objDataMhs));
+
+                  //Mengirimkan data JSON ke server
+                  document.getElementById('send_json').addEventListener('click', function(event){
+                        let xhr = new XMLHttpRequest();
+                        let url = 'receiveDataJSON.php';
+                  
+                        // open a connection
+                        xhr.open("POST", url, true);
+            
+                        // Set tipe konten pada header
+                        xhr.setRequestHeader("Content-Type", "application/json");
+            
+                        // callback
+                        xhr.onreadystatechange = function () {
+                              if (xhr.readyState === 4 && xhr.status === 200) {
+                                    if(this.responseText=='sukses'){
+                                          alert('Simpan data berhasil');
+                                          document.getElementById('status').innerHTML = 'Status: Berhasil';
+                                    }else{
+                                          alert('Simpan data GAGAL!');
+                                          document.getElementById('status').innerHTML = 'Status: GAGAL! Data sudah tersimpan sebelumnya';
+                                    }
+                                    console.log(this.responseText);
+                              }
+                        };
+            
+                        // Ubah JSON data ke string
+                        var data = JSON.stringify(objDataMhs);
+            
+                        // Kirim data
+                        xhr.send(data);
+                  });
+            </script>
+      </body>
+
+</html>
